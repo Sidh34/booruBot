@@ -74,6 +74,8 @@ def image_embed_multiple(embed, post, n):
     elif post[n]['rating'] == 'e':
         rating = 'Explicit'
         embed.set_thumbnail(url=darkness_url)
+    else:
+        rating = 'Unknown'
     if post[n]['tag_string_character']:
         embed.add_field(name='Character', value=post[n]['tag_string_character'].split(' ')[0], inline=True)
     else:
