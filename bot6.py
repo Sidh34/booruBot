@@ -4,6 +4,7 @@ from discord.ext import commands
 from pybooru import Danbooru
 from operator import itemgetter
 from kekw.danb import *
+import re
 import PARAMETERS
 
 no_dupe = []
