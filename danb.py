@@ -1,4 +1,5 @@
 import logging
+import re
 
 bot_url = 'https://i.redd.it/74tcw6iq1k161.jpg'
 ina_url = 'https://preview.redd.it/307b6pt6tfx61.jpg?width=232&format=pjpg&auto=webp&s' \
@@ -10,6 +11,11 @@ aqua_url = 'https://danbooru.donmai.us/data/sample/bb/9d' \
            '-bb9d727bf996c86554dce5c2cb9198e7.jpg '
 darkness_url = "https://danbooru.donmai.us/data/original/98/29" \
                "/__darkness_kono_subarashii_sekai_ni_shukufuku_wo_drawn_by_lambda_kusowarota__9829baa99fcbf3b61ac2552ecdb34824.jpg "
+
+banned_tags = 'male_focus'
+feet_pattern = '[fF].{2}[eE]*.{0,1}[tT]'
+accepted_file_types = '(png|jpg|gif)'
+cumb_pattern = '[cC].{0,1}[uUoO]*.{0,1}[mM]'
 
 
 def logg():
