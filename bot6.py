@@ -228,10 +228,10 @@ async def on_message(message):
         return
     if re.search(feet_pattern, message.content):
         if not message.content.startswith('?'):
-            await message.channel.send(f_t())
+            await message.channel.send(PARAMETERS.F_COPY_PASTA)
     if re.search(c_t_pattern, message.content):
         if not message.content.startswith('?'):
-            await message.channel.send(c_t())
+            await message.channel.send(PARAMETERS.T_COPY_PASTA)
 
 
 client.run(PARAMETERS.BOT_TOKEN)
