@@ -28,13 +28,15 @@ async def user_help(ctx):
 @client.command(aliases=['tag', 't'])
 async def tagged(ctx, *, tags='hololive'):
     try:
-        posts = cli.post_list(tags=f'{tags}', limit=1)
-        for posted in posts:
-            e = discord.Embed(title='Tagged', color=0x0e0de6)
-            image_embed(e, posted)
-            no_dupe.append(posted['id'])
+        posts = cli.post_list(tags=f'{tags}', limit=2)
+        for n in range(0, 2):
+            if posts[n]['id'] not in no_dupe[-10:]:
+                e = discord.Embed(title='Tagged', color=0x0e0de6)
+                image_embed_multiple(e, posts, n)
+                no_dupe.append(posts[n]['id'])
 
-            await ctx.send(embed=e)
+                await ctx.send(embed=e)
+                break
     except IndexError:
         w = discord.Embed(title='InaDisappoint', color=0x2ae20c)
         ina_embed(w)
@@ -128,12 +130,13 @@ async def pure_random(ctx):
 async def popular_post(ctx, *, page='1'):
     try:
         page = int(page)
-        post = cli.post_list(limit=1, tags='order:rank', page={page})
-        for posted in post:
+        post = cli.post_list(limit=2, tags='order:rank', page={page})
+        for n in range(0, 2):
             e = discord.Embed(title='Popular Post', color=0xFF00FF)
-            image_embed(e, posted)
+            image_embed_multiple(e, post, n)
 
             await ctx.send(embed=e)
+            break
     except KeyError:
         w = discord.Embed(title='KeyError: lole go somewhere else', color=0x2ae20c)
         ina_embed(w)
@@ -147,10 +150,6 @@ async def popular_post(ctx, *, page='1'):
 @client.command(aliases=['tbig', 'tpop'])
 async def tagged_popular(ctx, *, tags='-boys_only'):
     try:
-        if tags.isnumeric():
-            w = discord.Embed(title='Number\'s don\'t work, idiot.', color=0x2ae20c)
-            ina_embed(w)
-            await ctx.send(embed=w)
         posts = cli.post_list(tags=f'{tags}', limit=100)
         updoot = []
         for n in range(0, 100):
@@ -162,9 +161,9 @@ async def tagged_popular(ctx, *, tags='-boys_only'):
             try:
                 if re.search(accepted_file_types, s_u[n][0]['file_url'][-3:]) \
                         and s_u[n][0]['id'] not in no_dupe[-10:]:
-                    post = s_u[n][0]
+                    post = s_u[n]
                     e = discord.Embed(title='Most Popular Tagged', color=0x2ae20c)
-                    image_embed(e, post)
+                    image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
 
                     await ctx.send(embed=e)
@@ -175,6 +174,10 @@ async def tagged_popular(ctx, *, tags='-boys_only'):
                 break
     except IndexError:
         w = discord.Embed(title='IndexError', color=0x2ae20c)
+        ina_embed(w)
+        await ctx.send(embed=w)
+    except ValueError:
+        w = discord.Embed(title='ValueError', color=0x2ae20c)
         ina_embed(w)
         await ctx.send(embed=w)
 
@@ -194,9 +197,9 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
                 if re.search(accepted_file_types, s_u[n][0]['file_url'][-3:]) and \
                         s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
                         and s_u[n][0]['id'] not in no_dupe[-10:]:
-                    post = s_u[n][0]
+                    post = s_u[n]
                     e = discord.Embed(title='Most Popular Tagged', color=0x2ae20c)
-                    image_embed(e, post)
+                    image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
 
                     await ctx.send(embed=e)
