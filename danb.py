@@ -1,5 +1,4 @@
 import logging
-import re
 
 bot_url = 'https://i.redd.it/74tcw6iq1k161.jpg'
 ina_url = 'https://preview.redd.it/307b6pt6tfx61.jpg?width=232&format=pjpg&auto=webp&s' \
