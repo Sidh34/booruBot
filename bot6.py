@@ -7,7 +7,6 @@ from kekw.danb import *
 import PARAMETERS
 
 no_dupe = []
-banned_tags = 'male_focus'
 server = discord.Client()
 intents = discord.Intents(messages=True, guilds=True, reactions=True, members=True, presences=True)
 client = commands.Bot(command_prefix='?', intents=intents)
@@ -161,7 +160,7 @@ async def tagged_popular(ctx, *, tags='-boys_only'):
         s_u.reverse()
         for n in range(0, 100):
             try:
-                if 'mp4' not in s_u[n][0]['file_url'][-3:] and 'ebm' not in s_u[n][0]['file_url'][-3:] \
+                if re.search(accepted_file_types, s_u[n][0]['file_url'][-3:]) \
                         and s_u[n][0]['id'] not in no_dupe[-10:]:
                     post = s_u[n][0]
                     e = discord.Embed(title='Most Popular Tagged', color=0x2ae20c)
@@ -192,8 +191,8 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
         s_u.reverse()
         for n in range(0, 100):
             try:
-                if 'mp4' not in s_u[n][0]['file_url'][-3:] and 'ebm' not in s_u[n][0]['file_url'][-3:] \
-                        and s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
+                if re.search(accepted_file_types, s_u[n][0]['file_url'][-3:]) and \
+                        s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
                         and s_u[n][0]['id'] not in no_dupe[-10:]:
                     post = s_u[n][0]
                     e = discord.Embed(title='Most Popular Tagged', color=0x2ae20c)
@@ -219,12 +218,14 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
 
 
 @client.event
-async def on_message(message):  # need regex
+async def on_message(message):
     await client.process_commands(message)
-    if 'feet' in message.content or 'Feet' in message.content:
+    if message.author.bot:
+        return
+    if re.search(feet_pattern, message.content):
         if not message.content.startswith('?'):
             await message.channel.send(feet())
-    if 'cum' in message.content or 'Cum' in message.content or 'COOM' in message.content or 'coom' in message.content:
+    if re.search(cumb_pattern, message.content):
         await message.channel.send(cum())
 
 
