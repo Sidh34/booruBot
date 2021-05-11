@@ -1,2 +1,2 @@
-# lewdbot
+# booruBot
 danbooru bot for discord
