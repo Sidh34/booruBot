@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 from pybooru import Danbooru
 from operator import itemgetter
-from danb import *
+from kekw.danb import *
 import re
 import PARAMETERS
 
@@ -228,9 +228,10 @@ async def on_message(message):
         return
     if re.search(feet_pattern, message.content):
         if not message.content.startswith('?'):
-            await message.channel.send(feet())
-    if re.search(cumb_pattern, message.content):
-        await message.channel.send(cum())
+            await message.channel.send(f_t())
+    if re.search(c_t_pattern, message.content):
+        if not message.content.startswith('?'):
+            await message.channel.send(c_t())
 
 
 client.run(PARAMETERS.BOT_TOKEN)
