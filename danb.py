@@ -60,31 +60,6 @@ def ina_embed(embed):
     logg()
 
 
-def image_embed(embed, post):
-    if 'jpg' in post['file_url'][-3:] or 'png' in post['file_url'][-3:] or 'gif' in post['file_url'][-3:]:
-        embed.set_image(url=post['file_url'])
-    else:
-        embed.set_image(url=ina_url)
-    embed.add_field(name='Post ID', value=post['id'], inline=True)
-    if post['rating'] == 's':
-        rating = 'Safe'
-        embed.set_thumbnail(url=megumin_url)
-    elif post['rating'] == 'q':
-        rating = 'Questionable'
-        embed.set_thumbnail(url=aqua_url)
-    elif post['rating'] == 'e':
-        rating = 'Explicit'
-        embed.set_thumbnail(url=darkness_url)
-    if post['tag_string_character']:
-        embed.add_field(name='Character', value=post['tag_string_character'].split(' ')[0], inline=True)
-    else:
-        embed.add_field(name='Character', value='Original', inline=True)
-    embed.add_field(name='Rating', value=rating, inline=True)
-    embed.add_field(name='Upvotes', value=post['up_score'], inline=True)
-    embed.add_field(name='Downvotes', value=post['down_score'], inline=True)
-    logg()
-
-
 def image_embed_multiple(embed, post, n):
     if 'jpg' in post[n]['file_url'][-3:] or 'png' in post[n]['file_url'][-3:] or 'gif' in post[n]['file_url'][-3:]:
         embed.set_image(url=post[n]['file_url'])
