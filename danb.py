@@ -1,5 +1,6 @@
 import logging
 import PARAMETERS
+import re
 
 banned_tags = 'male_focus'
 feet_pattern = '[fF].{2}[eE]*.{0,1}[tT]'
@@ -34,7 +35,7 @@ def ina_embed(embed):
 
 
 def image_embed_multiple(embed, post, n):
-    if 'jpg' in post[n]['file_url'][-3:] or 'png' in post[n]['file_url'][-3:] or 'gif' in post[n]['file_url'][-3:]:
+    if re.search(accepted_file_types, post[n]['file_url'][-3:]):
         embed.set_image(url=post[n]['file_url'])
     else:
         embed.set_image(url=PARAMETERS.INA_URL)
