@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 from pybooru import Danbooru
 from operator import itemgetter
-from kekw.danb import *
+from danb import *
 import re
 import PARAMETERS
 
