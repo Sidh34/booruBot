@@ -43,7 +43,7 @@ async def tagged(ctx, *, tags='hololive'):
         ina_embed(w)
         await ctx.send(embed=w)
     except KeyError:
-        w = discord.Embed(title='KeyError: I know how to fix but it\'s aids', color=0x2ae20c)
+        w = discord.Embed(title='KeyError', color=0x2ae20c)
         ina_embed(w)
         await ctx.send(embed=w)
     except ValueError:
@@ -68,7 +68,7 @@ async def ran_tag_saf(ctx, *, tags='-boys_only', rating='s'):
         except KeyError:
             pass
         except IndexError:
-            w = discord.Embed(title='IndexError: Input a usable tag, retard', color=0x2ae20c)
+            w = discord.Embed(title='IndexError: Input a usable tag', color=0x2ae20c)
             ina_embed(w)
             await ctx.send(embed=w)
             break
@@ -90,7 +90,7 @@ async def ran_tag_que(ctx, *, tags='-boys_only', rating='q'):
         except KeyError:
             pass
         except IndexError:
-            w = discord.Embed(title='IndexError: Input a usable tag, retard', color=0x2ae20c)
+            w = discord.Embed(title='IndexError: Input a usable tag', color=0x2ae20c)
             ina_embed(w)
             await ctx.send(embed=w)
             break
@@ -112,7 +112,7 @@ async def ran_tag_ex(ctx, *, tags='-boys_only', rating='e'):
         except KeyError:
             pass
         except IndexError:
-            w = discord.Embed(title='IndexError: Input a usable tag, retard', color=0x2ae20c)
+            w = discord.Embed(title='IndexError: Input a usable tag', color=0x2ae20c)
             ina_embed(w)
             await ctx.send(embed=w)
             break
@@ -139,11 +139,11 @@ async def popular_post(ctx, *, page='1'):
             await ctx.send(embed=e)
             break
     except KeyError:
-        w = discord.Embed(title='KeyError: lole go somewhere else', color=0x2ae20c)
+        w = discord.Embed(title='KeyError: Go somewhere else', color=0x2ae20c)
         ina_embed(w)
         await ctx.send(embed=w)
     except ValueError:
-        w = discord.Embed(title='ValueError: Enter a number, retard', color=0x2ae20c)
+        w = discord.Embed(title='ValueError: Enter a number, not a tag', color=0x2ae20c)
         ina_embed(w)
         await ctx.send(embed=w)
 
