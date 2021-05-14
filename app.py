@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 from pybooru import Danbooru
 from operator import itemgetter
-from danb import *
+from DanbooruBot.danb import *
 import re
 import PARAMETERS
 
@@ -196,7 +196,7 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
         tied = tuple(zip(posts, updoot))
         s_u = sorted(tied, key=itemgetter(1))
         s_u.reverse()
-        for n in range(0, 101):
+        for n in range(0, 100):
             try:
                 if re.search(accepted_file_types, s_u[n][0]['file_url'][-3:]) and \
                         s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
