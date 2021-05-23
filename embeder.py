@@ -1,18 +1,9 @@
-import logging
 import PARAMETERS
 import re
+from loghelp import *
 
-banned_tags = 'male_focus'
-feet_pattern = '[fF].{2}[eE]*.{0,1}[tT]'
+
 accepted_file_types = '(png|jpg|gif)'
-c_t_pattern = '[cC].{0,1}[uUoO]*.{0,1}[mM]'
-
-
-def logg():
-    logging.basicConfig(format='%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
-                        datefmt='%d-%m-%Y:%H:%M:%S',
-                        level=logging.DEBUG,
-                        filename='logs.txt')
 
 
 def helper(embed):  # needs finishing
@@ -25,7 +16,6 @@ def helper(embed):  # needs finishing
     embed.add_field(name='?pop #', value='Used to find popular/hot posts', inline=True)
     embed.add_field(name='?tpop (tag)', value='Used to find most upvoted post of given tag', inline=True)
     embed.add_field(name='?h', value='Help', inline=True)
-    logg()
 
 
 def ina_embed(embed):
@@ -58,4 +48,4 @@ def image_embed_multiple(embed, post, n):
     embed.add_field(name='Rating', value=rating, inline=True)
     embed.add_field(name='Upvotes', value=post[n]['up_score'], inline=True)
     embed.add_field(name='Downvotes', value=post[n]['down_score'], inline=True)
-    logg()
+    saver(post, n)
