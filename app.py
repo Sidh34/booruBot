@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 from pybooru import Danbooru
 from operator import itemgetter
-from DanbooruBot.danb import *
+from DanbooruBot.embeder import *
 import re
 import PARAMETERS
 
@@ -12,6 +12,9 @@ server = discord.Client()
 intents = discord.Intents(messages=True, guilds=True, reactions=True, members=True, presences=True)
 client = commands.Bot(command_prefix='?', intents=intents)
 cli = Danbooru('danbooru', username=PARAMETERS.DANBOORU_USER, api_key=PARAMETERS.DANBOORU_TOKEN)
+banned_tags = 'male_focus'
+feet_pattern = '[fF].{2}[eE]*.{0,1}[tT]'
+c_t_pattern = '[cC].{0,1}[uUoO]*.{0,1}[mM]'
 
 
 @client.event
@@ -202,7 +205,7 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
                         s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
                         and s_u[n][0]['id'] not in no_dupe[-10:]:
                     post = s_u[n]
-                    e = discord.Embed(title='Most Popular Tagged', color=0x2ae20c)
+                    e = discord.Embed(title='Most Popular Explicit Tagged', color=0x2ae20c)
                     image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
 
@@ -213,6 +216,88 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
                 pass
             except IndexError:
                 print(f'IndexError: ?tepop {tags}')
+                pass
+    except IndexError:
+        w = discord.Embed(title='IndexError', color=0x2ae20c)
+        ina_embed(w)
+        await ctx.send(embed=w)
+    except ValueError:
+        w = discord.Embed(title='ValueError', color=0x2ae20c)
+        ina_embed(w)
+        await ctx.send(embed=w)
+
+
+@client.command(aliases=['tqbig', 'tqpop'])
+async def tagged_popular_questionable(ctx, *, tags='-boys_only', rating='q'):
+    try:
+        posts = cli.post_list(tags=f'{tags}', limit=100)
+        updoot = []
+        try:
+            for n in range(0, 100):
+                updoot.append(posts[n]['up_score'])
+        except IndexError:
+            pass
+        tied = tuple(zip(posts, updoot))
+        s_u = sorted(tied, key=itemgetter(1))
+        s_u.reverse()
+        for n in range(0, 100):
+            try:
+                if re.search(accepted_file_types, s_u[n][0]['file_url'][-3:]) and \
+                        s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
+                        and s_u[n][0]['id'] not in no_dupe[-10:]:
+                    post = s_u[n]
+                    e = discord.Embed(title='Most Popular Questionable Tagged', color=0x2ae20c)
+                    image_embed_multiple(e, post, 0)
+                    no_dupe.append(s_u[n][0]['id'])
+
+                    await ctx.send(embed=e)
+                    break
+            except KeyError:
+                print(f'KeyError: ?tqpop {tags}')
+                pass
+            except IndexError:
+                print(f'IndexError: ?tqpop {tags}')
+                pass
+    except IndexError:
+        w = discord.Embed(title='IndexError', color=0x2ae20c)
+        ina_embed(w)
+        await ctx.send(embed=w)
+    except ValueError:
+        w = discord.Embed(title='ValueError', color=0x2ae20c)
+        ina_embed(w)
+        await ctx.send(embed=w)
+
+
+@client.command(aliases=['tsbig', 'tspop'])
+async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
+    try:
+        posts = cli.post_list(tags=f'{tags}', limit=100)
+        updoot = []
+        try:
+            for n in range(0, 100):
+                updoot.append(posts[n]['up_score'])
+        except IndexError:
+            pass
+        tied = tuple(zip(posts, updoot))
+        s_u = sorted(tied, key=itemgetter(1))
+        s_u.reverse()
+        for n in range(0, 100):
+            try:
+                if re.search(accepted_file_types, s_u[n][0]['file_url'][-3:]) and \
+                        s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
+                        and s_u[n][0]['id'] not in no_dupe[-10:]:
+                    post = s_u[n]
+                    e = discord.Embed(title='Most Popular Safe Tagged', color=0x2ae20c)
+                    image_embed_multiple(e, post, 0)
+                    no_dupe.append(s_u[n][0]['id'])
+
+                    await ctx.send(embed=e)
+                    break
+            except KeyError:
+                print(f'KeyError: ?tspop {tags}')
+                pass
+            except IndexError:
+                print(f'IndexError: ?tspop {tags}')
                 pass
     except IndexError:
         w = discord.Embed(title='IndexError', color=0x2ae20c)
