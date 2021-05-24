@@ -49,3 +49,21 @@ def image_embed_multiple(embed, post, n):
     embed.add_field(name='Upvotes', value=post[n]['up_score'], inline=True)
     embed.add_field(name='Downvotes', value=post[n]['down_score'], inline=True)
     saver(post, n)
+
+
+def hist_embed(embed, post):
+    embed.add_field(name='Character', value=post['Character'], inline=False)
+    if post['Rating'] == 's':
+        rating = 'Safe'
+        embed.set_thumbnail(url=PARAMETERS.MEGUMIN_URL)
+    elif post['Rating'] == 'q':
+        rating = 'Questionable'
+        embed.set_thumbnail(url=PARAMETERS.AQUA_URL)
+    elif post['Rating'] == 'e':
+        rating = 'Explicit'
+        embed.set_thumbnail(url=PARAMETERS.DARKNESS_URL)
+    else:
+        rating = 'Unknown'
+    embed.add_field(name='Rating', value=rating, inline=False)
+    embed.add_field(name='Upvotes', value=post['Upvotes'], inline=False)
+    embed.set_image(url=post['ImageUrl'])
