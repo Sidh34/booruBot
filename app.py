@@ -3,9 +3,10 @@ import discord
 from discord.ext import commands
 from pybooru import Danbooru
 from operator import itemgetter
-from DanbooruBot.embeder import *
+import DanbooruBot.embeder
 import re
 import PARAMETERS
+from loghelp import opener
 
 no_dupe = []
 server = discord.Client()
@@ -25,7 +26,7 @@ async def on_ready():
 @client.command(aliases=['h'])
 async def user_help(ctx):
     e = discord.Embed(title='Helper', color=0x0e0de6)
-    helper(e)
+    DanbooruBot.embeder.helper(e)
     await ctx.send(embed=e)
 
 
@@ -36,22 +37,22 @@ async def tagged(ctx, *, tags='hololive'):
         for n in range(0, 2):
             if posts[n]['id'] not in no_dupe[-10:]:
                 e = discord.Embed(title='Tagged', color=0x0e0de6)
-                image_embed_multiple(e, posts, n)
+                DanbooruBot.embeder.image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
 
                 await ctx.send(embed=e)
                 break
     except IndexError:
         w = discord.Embed(title='InaDisappoint', color=0x2ae20c)
-        ina_embed(w)
+        DanbooruBot.embeder.ina_embed(w)
         await ctx.send(embed=w)
     except KeyError:
         w = discord.Embed(title='KeyError', color=0x2ae20c)
-        ina_embed(w)
+        DanbooruBot.embeder.ina_embed(w)
         await ctx.send(embed=w)
     except ValueError:
         w = discord.Embed(title='ValueError', color=0x2ae20c)
-        ina_embed(w)
+        DanbooruBot.embeder.ina_embed(w)
         await ctx.send(embed=w)
 
 
@@ -63,7 +64,7 @@ async def ran_tag_saf(ctx, *, tags='-boys_only', rating='s'):
             if banned_tags not in posts[n]['tag_string_general'] and posts[n]['rating'] in rating \
                     and posts[n]['id'] not in no_dupe[-10:]:
                 e = discord.Embed(title='Tagged Safe', color=0x2ae20c)
-                image_embed_multiple(e, posts, n)
+                DanbooruBot.embeder.image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
 
                 await ctx.send(embed=e)
@@ -72,7 +73,7 @@ async def ran_tag_saf(ctx, *, tags='-boys_only', rating='s'):
             pass
         except IndexError:
             w = discord.Embed(title='IndexError: Input a usable tag', color=0x2ae20c)
-            ina_embed(w)
+            DanbooruBot.embeder.ina_embed(w)
             await ctx.send(embed=w)
             break
 
@@ -85,7 +86,7 @@ async def ran_tag_que(ctx, *, tags='-boys_only', rating='q'):
             if banned_tags not in posts[n]['tag_string_general'] and posts[n]['rating'] in rating \
                     and posts[n]['id'] not in no_dupe[-10:]:
                 e = discord.Embed(title='Tagged Questionable', color=0xee8f10)
-                image_embed_multiple(e, posts, n)
+                DanbooruBot.embeder.image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
 
                 await ctx.send(embed=e)
@@ -94,7 +95,7 @@ async def ran_tag_que(ctx, *, tags='-boys_only', rating='q'):
             pass
         except IndexError:
             w = discord.Embed(title='IndexError: Input a usable tag', color=0x2ae20c)
-            ina_embed(w)
+            DanbooruBot.embeder.ina_embed(w)
             await ctx.send(embed=w)
             break
 
@@ -107,7 +108,7 @@ async def ran_tag_ex(ctx, *, tags='-boys_only', rating='e'):
             if banned_tags not in posts[n]['tag_string_general'] and posts[n]['rating'] in rating \
                     and posts[n]['id'] not in no_dupe[-10:]:
                 e = discord.Embed(title='Tagged Explicit', color=0xe20c0c)
-                image_embed_multiple(e, posts, n)
+                DanbooruBot.embeder.image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
 
                 await ctx.send(embed=e)
@@ -116,7 +117,7 @@ async def ran_tag_ex(ctx, *, tags='-boys_only', rating='e'):
             pass
         except IndexError:
             w = discord.Embed(title='IndexError: Input a usable tag', color=0x2ae20c)
-            ina_embed(w)
+            DanbooruBot.embeder.ina_embed(w)
             await ctx.send(embed=w)
             break
 
@@ -125,7 +126,7 @@ async def ran_tag_ex(ctx, *, tags='-boys_only', rating='e'):
 async def pure_random(ctx):
     posts = cli.post_list(limit=1, tags='-boys_only', random=True)
     e = discord.Embed(title='Random', color=0x0b0b0c)
-    image_embed_multiple(e, posts, 0)
+    DanbooruBot.embeder.image_embed_multiple(e, posts, 0)
 
     await ctx.send(embed=e)
 
@@ -137,17 +138,17 @@ async def popular_post(ctx, *, page='1'):
         post = cli.post_list(limit=2, tags='order:rank', page={page})
         for n in range(0, 2):
             e = discord.Embed(title='Popular Post', color=0xFF00FF)
-            image_embed_multiple(e, post, n)
+            DanbooruBot.embeder.image_embed_multiple(e, post, n)
 
             await ctx.send(embed=e)
             break
     except KeyError:
         w = discord.Embed(title='KeyError: Go somewhere else', color=0x2ae20c)
-        ina_embed(w)
+        DanbooruBot.embeder.ina_embed(w)
         await ctx.send(embed=w)
     except ValueError:
         w = discord.Embed(title='ValueError: Enter a number, not a tag', color=0x2ae20c)
-        ina_embed(w)
+        DanbooruBot.embeder.ina_embed(w)
         await ctx.send(embed=w)
 
 
@@ -163,11 +164,11 @@ async def tagged_popular(ctx, *, tags='-boys_only'):
         s_u.reverse()
         for n in range(0, 100):
             try:
-                if re.search(accepted_file_types, s_u[n][0]['file_url'][-3:]) \
+                if re.search(DanbooruBot.embeder.accepted_file_types, s_u[n][0]['file_url'][-3:]) \
                         and s_u[n][0]['id'] not in no_dupe[-10:]:
                     post = s_u[n]
                     e = discord.Embed(title='Most Popular Tagged', color=0x2ae20c)
-                    image_embed_multiple(e, post, 0)
+                    DanbooruBot.embeder.image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
 
                     await ctx.send(embed=e)
@@ -178,11 +179,11 @@ async def tagged_popular(ctx, *, tags='-boys_only'):
                 break
     except IndexError:
         w = discord.Embed(title='IndexError', color=0x2ae20c)
-        ina_embed(w)
+        DanbooruBot.embeder.ina_embed(w)
         await ctx.send(embed=w)
     except ValueError:
         w = discord.Embed(title='ValueError', color=0x2ae20c)
-        ina_embed(w)
+        DanbooruBot.embeder.ina_embed(w)
         await ctx.send(embed=w)
 
 
@@ -201,12 +202,12 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
         s_u.reverse()
         for n in range(0, 100):
             try:
-                if re.search(accepted_file_types, s_u[n][0]['file_url'][-3:]) and \
+                if re.search(DanbooruBot.embeder.accepted_file_types, s_u[n][0]['file_url'][-3:]) and \
                         s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
-                        and s_u[n][0]['id'] not in no_dupe[-10:]:
+                        and s_u[n][0]['id'] not in no_dupe[-15:]:
                     post = s_u[n]
                     e = discord.Embed(title='Most Popular Explicit Tagged', color=0x2ae20c)
-                    image_embed_multiple(e, post, 0)
+                    DanbooruBot.embeder.image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
 
                     await ctx.send(embed=e)
@@ -219,11 +220,11 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
                 pass
     except IndexError:
         w = discord.Embed(title='IndexError', color=0x2ae20c)
-        ina_embed(w)
+        DanbooruBot.embeder.ina_embed(w)
         await ctx.send(embed=w)
     except ValueError:
         w = discord.Embed(title='ValueError', color=0x2ae20c)
-        ina_embed(w)
+        DanbooruBot.embeder.ina_embed(w)
         await ctx.send(embed=w)
 
 
@@ -242,12 +243,12 @@ async def tagged_popular_questionable(ctx, *, tags='-boys_only', rating='q'):
         s_u.reverse()
         for n in range(0, 100):
             try:
-                if re.search(accepted_file_types, s_u[n][0]['file_url'][-3:]) and \
+                if re.search(DanbooruBot.embeder.accepted_file_types, s_u[n][0]['file_url'][-3:]) and \
                         s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
-                        and s_u[n][0]['id'] not in no_dupe[-10:]:
+                        and s_u[n][0]['id'] not in no_dupe[-15:]:
                     post = s_u[n]
                     e = discord.Embed(title='Most Popular Questionable Tagged', color=0x2ae20c)
-                    image_embed_multiple(e, post, 0)
+                    DanbooruBot.embeder.image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
 
                     await ctx.send(embed=e)
@@ -260,11 +261,11 @@ async def tagged_popular_questionable(ctx, *, tags='-boys_only', rating='q'):
                 pass
     except IndexError:
         w = discord.Embed(title='IndexError', color=0x2ae20c)
-        ina_embed(w)
+        DanbooruBot.embeder.ina_embed(w)
         await ctx.send(embed=w)
     except ValueError:
         w = discord.Embed(title='ValueError', color=0x2ae20c)
-        ina_embed(w)
+        DanbooruBot.embeder.ina_embed(w)
         await ctx.send(embed=w)
 
 
@@ -283,12 +284,12 @@ async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
         s_u.reverse()
         for n in range(0, 100):
             try:
-                if re.search(accepted_file_types, s_u[n][0]['file_url'][-3:]) and \
+                if re.search(DanbooruBot.embeder.accepted_file_types, s_u[n][0]['file_url'][-3:]) and \
                         s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
-                        and s_u[n][0]['id'] not in no_dupe[-10:]:
+                        and s_u[n][0]['id'] not in no_dupe[-15:]:
                     post = s_u[n]
                     e = discord.Embed(title='Most Popular Safe Tagged', color=0x2ae20c)
-                    image_embed_multiple(e, post, 0)
+                    DanbooruBot.embeder.image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
 
                     await ctx.send(embed=e)
@@ -301,11 +302,24 @@ async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
                 pass
     except IndexError:
         w = discord.Embed(title='IndexError', color=0x2ae20c)
-        ina_embed(w)
+        DanbooruBot.embeder.ina_embed(w)
         await ctx.send(embed=w)
     except ValueError:
         w = discord.Embed(title='ValueError', color=0x2ae20c)
-        ina_embed(w)
+        DanbooruBot.embeder.ina_embed(w)
+        await ctx.send(embed=w)
+
+
+@client.command(aliases=['hist'])
+async def historical_character(ctx, *, character='keqing_(genshin_impact)'):
+    try:
+        post = opener(character)
+        w = discord.Embed(title='Historical Tagged', color=0x2ae20c)
+        DanbooruBot.embeder.hist_embed(w, post)
+        await ctx.send(embed=w)
+    except ValueError:
+        w = discord.Embed(title='ValueError', color=0x2ae20c)
+        DanbooruBot.embeder.ina_embed(w)
         await ctx.send(embed=w)
 
 
