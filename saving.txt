@@ -1,7 +1,0 @@
-example formatting of saving.txt  
-
-{'Character': "ninomae_ina'nis", 'Rating': 's', 'ImageUrl': 'https://danbooru.donmai.us/data/original/55/bb/55bbe375810040f5444b734c9adeb676.jpg', 'Upvotes': 29}  
-.  
-.  
-.  
-{'Character': 'nekomata_okayu', 'Rating': 's', 'ImageUrl': 'https://danbooru.donmai.us/data/original/4a/0b/4a0b54760803bf14be84fc74adc74142.png', 'Upvotes': 21}
