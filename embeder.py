@@ -52,7 +52,8 @@ def image_embed_multiple(embed, post, n):
 
 
 def hist_embed(embed, post):
-    embed.add_field(name='Character', value=post['Character'], inline=False)
+    embed.add_field(name='Post ID', value=post['id'], inline=True)
+    embed.add_field(name='Character', value=post['Character'], inline=True)
     if post['Rating'] == 's':
         rating = 'Safe'
         embed.set_thumbnail(url=PARAMETERS.MEGUMIN_URL)
