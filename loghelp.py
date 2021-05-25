@@ -14,7 +14,7 @@ def saver(post, n):
     with open('saving.json', 'r') as f:
         data = json.load(f)
         char = dict(Character=post[n]["tag_string_character"].split(" ")[0], Rating=post[n]["rating"],
-                    ImageUrl=post[n]["file_url"], Upvotes=post[n]['up_score'])
+                    ImageUrl=post[n]["file_url"], Upvotes=post[n]['up_score'], id=post[n]['id'])
         data['Tags'].append(char)
     with open('saving.json', 'w') as f:
         json.dump(data, f, indent=2)
