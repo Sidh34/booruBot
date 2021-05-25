@@ -19,13 +19,18 @@ def helper(embed):  # needs finishing
 
 
 def ina_embed(embed):
+    # For errors
     embed.set_image(url=PARAMETERS.INA_URL)
     embed.add_field(name='You idiot', value='Stop screwing it up')
     logg()
 
 
 def image_embed_multiple(embed, post, n):
-    if re.search(accepted_file_types, post[n]['file_url'][-3:]):
+    # Pulled from Danbooru API post
+    # useful dict tags for post[n]['tags']
+    # ['file_url'], ['id'], ['rating'], ['tag_string_character'].split(' ')[0],
+    # ['tag_string_artist'], ['up_score'], ['down_score'], ['file_ext']
+    if re.search(accepted_file_types, post[n]['file_ext']):
         embed.set_image(url=post[n]['file_url'])
     else:
         embed.set_image(url=PARAMETERS.INA_URL)
@@ -52,6 +57,8 @@ def image_embed_multiple(embed, post, n):
 
 
 def hist_embed(embed, post):
+    # Pulled from saving.json
+    # ["Character"], ["Rating"], ["ImageUrl"], ["Upvotes"], ["id"]
     embed.add_field(name='Post ID', value=post['id'], inline=True)
     embed.add_field(name='Character', value=post['Character'], inline=True)
     if post['Rating'] == 's':
