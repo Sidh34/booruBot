@@ -35,7 +35,8 @@ async def tagged(ctx, *, tags='hololive'):
     try:
         posts = cli.post_list(tags=f'{tags}', limit=2)
         for n in range(0, 2):
-            if posts[n]['id'] not in no_dupe[-15:]:
+            if posts[n]['id'] not in no_dupe[-15:] and \
+                    re.search(DanbooruBot.embeder.accepted_file_types, posts['file_ext']):
                 e = discord.Embed(title='Tagged', color=0x0e0de6)  # saver
                 DanbooruBot.embeder.image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
@@ -43,7 +44,7 @@ async def tagged(ctx, *, tags='hololive'):
                 await ctx.send(embed=e)
                 break
     except IndexError:
-        w = discord.Embed(title='InaDisappoint', color=0x2ae20c)  # logg
+        w = discord.Embed(title='IndexError', color=0x2ae20c)  # logg
         DanbooruBot.embeder.ina_embed(w)
         await ctx.send(embed=w)
     except KeyError:
@@ -125,10 +126,20 @@ async def ran_tag_ex(ctx, *, tags='-boys_only', rating='e'):
 @client.command(aliases=['r', 'random'])  # not saved to no_dupe
 async def pure_random(ctx):
     posts = cli.post_list(limit=1, tags='-boys_only', random=True)
-    e = discord.Embed(title='Random', color=0x0b0b0c)  # saver
-    DanbooruBot.embeder.image_embed_multiple(e, posts, 0)
-
-    await ctx.send(embed=e)
+    try:
+        if re.search(DanbooruBot.embeder.accepted_file_types, posts['file_ext']):
+            e = discord.Embed(title='Random', color=0x0b0b0c)  # saver
+            DanbooruBot.embeder.image_embed_multiple(e, posts, 0)
+        
+            await ctx.send(embed=e)
+    except KeyError:
+        w = discord.Embed(title='KeyError', color=0x2ae20c)  # logg
+        DanbooruBot.embeder.ina_embed(w)
+        await ctx.send(embed=w)
+    except ValueError:
+        w = discord.Embed(title='ValueError', color=0x2ae20c)  # logg
+        DanbooruBot.embeder.ina_embed(w)
+        await ctx.send(embed=w)
 
 
 @client.command(aliases=['pop', 'popular'])  # not saved to no_dupe
@@ -137,11 +148,12 @@ async def popular_post(ctx, *, page='1'):
         page = int(page)
         post = cli.post_list(limit=2, tags='order:rank', page={page})
         for n in range(0, 2):
-            e = discord.Embed(title='Popular Post', color=0xFF00FF)  # saver
-            DanbooruBot.embeder.image_embed_multiple(e, post, n)
-
-            await ctx.send(embed=e)
-            break
+            if re.search(DanbooruBot.embeder.accepted_file_types, post[n]['file_ext']):
+                e = discord.Embed(title='Popular Post', color=0xFF00FF)  # saver
+                DanbooruBot.embeder.image_embed_multiple(e, post, n)
+    
+                await ctx.send(embed=e)
+                break
     except KeyError:
         w = discord.Embed(title='KeyError: Go somewhere else', color=0x2ae20c)  # logg
         DanbooruBot.embeder.ina_embed(w)
