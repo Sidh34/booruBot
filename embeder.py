@@ -75,3 +75,32 @@ def hist_embed(embed, post):
     embed.add_field(name='Rating', value=rating, inline=False)
     embed.add_field(name='Upvotes', value=post['Upvotes'], inline=False)
     embed.set_image(url=post['ImageUrl'])
+
+
+def individual_embed(embed, post):
+    # Pulled from Danbooru API post
+    embed.set_image(url=post['file_url'])
+    embed.add_field(name='Post ID', value=post['id'], inline=True)
+    if post['rating'] == 's':
+        rating = 'Safe'
+        embed.set_thumbnail(url=PARAMETERS.MEGUMIN_URL)
+    elif post['rating'] == 'q':
+        rating = 'Questionable'
+        embed.set_thumbnail(url=PARAMETERS.AQUA_URL)
+    elif post['rating'] == 'e':
+        rating = 'Explicit'
+        embed.set_thumbnail(url=PARAMETERS.DARKNESS_URL)
+    else:
+        rating = 'Unknown'
+    if post['tag_string_character']:
+        embed.add_field(name='Character', value=post['tag_string_character'].split(' ')[0], inline=True)
+    else:
+        embed.add_field(name='Character', value='Original', inline=True)
+    embed.add_field(name='Rating', value=rating, inline=False)
+    embed.add_field(name='Upvotes', value=post['up_score'], inline=True)
+    embed.add_field(name='Downvotes', value=post['down_score'], inline=True)
+    embed.add_field(name='Favorites', value=post['fav_count'], inline=True)
+    embed.add_field(name='Artist', value=post['tag_string_artist'], inline=True)
+    embed.add_field(name='Pixiv ID', value=post['pixiv_id'], inline=True)
+    embed.add_field(name='Post Date', value=f"{post['created_at'].split('T')[0]} at {post['created_at'].split('T')[1]}", inline=False)
+    embed.add_field(name='Size', value=f'{post["image_width"]} x {post["image_height"]}', inline=False)
