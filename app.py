@@ -130,7 +130,7 @@ async def pure_random(ctx):
         if re.search(DanbooruBot.embeder.accepted_file_types, posts['file_ext']):
             e = discord.Embed(title='Random', color=0x0b0b0c)  # saver
             DanbooruBot.embeder.image_embed_multiple(e, posts, 0)
-        
+
             await ctx.send(embed=e)
     except KeyError:
         w = discord.Embed(title='KeyError', color=0x2ae20c)  # logg
@@ -151,7 +151,7 @@ async def popular_post(ctx, *, page='1'):
             if re.search(DanbooruBot.embeder.accepted_file_types, post[n]['file_ext']):
                 e = discord.Embed(title='Popular Post', color=0xFF00FF)  # saver
                 DanbooruBot.embeder.image_embed_multiple(e, post, n)
-    
+
                 await ctx.send(embed=e)
                 break
     except KeyError:
@@ -326,13 +326,27 @@ async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
 async def historical_character(ctx, *, character='keqing_(genshin_impact)'):
     try:
         post = opener(character)
-        w = discord.Embed(title='Historical Tagged', color=0x2ae20c)  # none
-        DanbooruBot.embeder.hist_embed(w, post)
-        await ctx.send(embed=w)
+        e = discord.Embed(title='Historical Tagged', color=0x2ae20c)  # none
+        DanbooruBot.embeder.hist_embed(e, post)
+        await ctx.send(embed=e)
     except ValueError:
         w = discord.Embed(title='ValueError', color=0x2ae20c)  # logg
         DanbooruBot.embeder.ina_embed(w)
         await ctx.send(embed=w)
+
+
+@client.command(aliases=['id'])
+async def id_find_info(ctx, *, identity):
+    if type(identity) != 'int':
+        w = discord.Embed(title='Give ID', color=0x2ae20c)  # logg
+        DanbooruBot.embeder.ina_embed(w)
+        await ctx.send(embed=w)
+    else:
+        post = cli.post_show(identity)
+        if re.search(DanbooruBot.embeder.accepted_file_types, post['file_ext']) and banned_tags not in post['tag_string_general']:
+            e = discord.Embed(title='ID Grab', color=0x2ae20c)  # not logg or saver
+            DanbooruBot.embeder.individual_embed(e, post)
+            await ctx.send(embed=e)
 
 
 @client.event
