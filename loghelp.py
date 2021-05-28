@@ -31,5 +31,3 @@ def opener(character='keqing_(genshin_impact)'):
             rat.append(res)
     elem = random.randint(0, len(rat)-1)
     return rat[elem]
-
-
