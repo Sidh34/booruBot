@@ -226,12 +226,10 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
                 print(f'KeyError: ?tepop {tags}')
                 pass
             except IndexError:
-                print(f'IndexError: ?tepop {tags}')
-                pass
-    except IndexError:
-        w = discord.Embed(title='IndexError', color=0x2ae20c)  # logg
-        ina_embed(w)
-        await ctx.send(embed=w)
+                w = discord.Embed(title='IndexError', color=0x2ae20c)  # logg
+                ina_embed(w)
+                await ctx.send(embed=w)
+                break
     except ValueError:
         w = discord.Embed(title='ValueError', color=0x2ae20c)  # logg
         ina_embed(w)
@@ -267,12 +265,10 @@ async def tagged_popular_questionable(ctx, *, tags='-boys_only', rating='q'):
                 print(f'KeyError: ?tqpop {tags}')
                 pass
             except IndexError:
-                print(f'IndexError: ?tqpop {tags}')
-                pass
-    except IndexError:
-        w = discord.Embed(title='IndexError', color=0x2ae20c)  # logg
-        ina_embed(w)
-        await ctx.send(embed=w)
+                w = discord.Embed(title='IndexError', color=0x2ae20c)  # logg
+                ina_embed(w)
+                await ctx.send(embed=w)
+                break
     except ValueError:
         w = discord.Embed(title='ValueError', color=0x2ae20c)  # logg
         ina_embed(w)
@@ -309,12 +305,10 @@ async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
                 print(f'KeyError: ?tspop {tags}')
                 pass
             except IndexError:
-                print(f'IndexError: ?tspop {tags}')
-                pass
-    except IndexError:
-        w = discord.Embed(title='IndexError', color=0x2ae20c)  # logg
-        ina_embed(w)
-        await ctx.send(embed=w)
+                w = discord.Embed(title='IndexError', color=0x2ae20c)  # logg
+                ina_embed(w)
+                await ctx.send(embed=w)
+                break
     except ValueError:
         w = discord.Embed(title='ValueError', color=0x2ae20c)  # logg
         ina_embed(w)
