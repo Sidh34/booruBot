@@ -1,6 +1,6 @@
 import PARAMETERS
 import re
-from loghelp import *
+# from loghelp import *
 
 
 accepted_file_types = '(png|jpg|gif)'
