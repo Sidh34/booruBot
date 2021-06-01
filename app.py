@@ -385,7 +385,8 @@ async def tagged_popular_questionable(ctx, *, tags='-boys_only', rating='q'):
         s_u.reverse()
         for n in range(0, 100):
             try:
-                if s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
+                if re.search(accepted_file_types, s_u[n][0]['file_ext']) and \
+                        s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
                         and s_u[n][0]['id'] not in no_dupe[-15:]:
                     post = s_u[n]
                     e = discord.Embed(title='Most Popular Questionable Tagged', color=0x2ae20c)  # saver
@@ -446,7 +447,8 @@ async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
         s_u.reverse()
         for n in range(0, 100):
             try:
-                if s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
+                if re.search(accepted_file_types, s_u[n][0]['file_ext']) and \
+                        s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
                         and s_u[n][0]['id'] not in no_dupe[-15:]:
                     post = s_u[n]
                     e = discord.Embed(title='Most Popular Safe Tagged', color=0x2ae20c)  # saver
