@@ -492,17 +492,17 @@ async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
         await ctx.send(embed=w)
 
 
-@client.command(aliases=['hist'])  # not saved to no_dupe
-async def historical_character(ctx, *, character='keqing_(genshin_impact)'):
-    try:
-        post = opener(character)
-        e = discord.Embed(title='Historical Tagged', color=0x2ae20c)  # none
-        hist_embed(e, post)
-        await ctx.send(embed=e)
-    except ValueError:
-        w = discord.Embed(title='ValueError', color=0x2ae20c)  # logg
-        ina_embed(w)
-        await ctx.send(embed=w)
+# @client.command(aliases=['hist'])  # not saved to no_dupe
+# async def historical_character(ctx, *, character='keqing_(genshin_impact)'):
+#     try:
+#         post = opener(character)
+#         e = discord.Embed(title='Historical Tagged', color=0x2ae20c)  # none
+#         hist_embed(e, post)
+#         await ctx.send(embed=e)
+#     except ValueError:
+#         w = discord.Embed(title='ValueError', color=0x2ae20c)  # logg
+#         ina_embed(w)
+#         await ctx.send(embed=w)
 
 
 @client.command(aliases=['id'])
