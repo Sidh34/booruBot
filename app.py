@@ -1,17 +1,16 @@
 from __future__ import unicode_literals
 import discord
 from discord.ext import commands
-from pybooru import Danbooru
 from pybooru.exceptions import PybooruHTTPError
 from operator import itemgetter
 from embeder import *
+from danhelp import *
 import time
 
 no_dupe = []
 server = discord.Client()
 intents = discord.Intents(messages=True, guilds=True, reactions=True, members=True, presences=True)
 client = commands.Bot(command_prefix='?', intents=intents)
-cli = Danbooru('danbooru', username=PARAMETERS.DANBOORU_USER, api_key=PARAMETERS.DANBOORU_TOKEN)
 banned_tags = 'male_focus'
 feet_pattern = '[fF].{2}[eE]*.{0,1}[tT]'
 c_t_pattern = '[cC]+[uUoO]+[uUoOmM]+[mMbB]*'
@@ -32,7 +31,7 @@ async def user_help(ctx):
 @client.command(aliases=['tag', 't'])  # saved to no dupe
 async def tagged(ctx, *, tags='hololive'):
     try:
-        posts = cli.post_list(tags=f'{tags}', limit=2)
+        posts = small_post_getter(tags)
         for n in range(0, 2):
             if posts[n]['id'] not in no_dupe[-15:] and \
                     re.search(accepted_file_types, posts[n]['file_ext']):
@@ -74,7 +73,7 @@ async def tagged(ctx, *, tags='hololive'):
 
 @client.command(aliases=['rt', 'rts'])  # saved to no dupe
 async def ran_tag_saf(ctx, *, tags='-boys_only', rating='s'):
-    posts = cli.post_list(tags=f'{tags}', limit=100, random=True)
+    posts = random_post_getter(tags)
     for n in range(0, 100):
         try:
             if re.search(accepted_file_types, posts[n]['file_ext']) and \
@@ -117,7 +116,7 @@ async def ran_tag_saf(ctx, *, tags='-boys_only', rating='s'):
 
 @client.command(aliases=['rtq'])  # saved to no dupe
 async def ran_tag_que(ctx, *, tags='-boys_only', rating='q'):
-    posts = cli.post_list(tags=f'{tags}', limit=100, random=True)
+    posts = random_post_getter(tags)
     for n in range(0, 100):
         try:
             if re.search(accepted_file_types, posts[n]['file_ext']) and \
@@ -160,7 +159,7 @@ async def ran_tag_que(ctx, *, tags='-boys_only', rating='q'):
 
 @client.command(aliases=['rte'])  # saved to no dupe
 async def ran_tag_ex(ctx, *, tags='-boys_only', rating='e'):
-    posts = cli.post_list(tags=f'{tags}', limit=100, random=True)
+    posts = random_post_getter(tags)
     for n in range(0, 100):
         try:
             if re.search(accepted_file_types, posts[n]['file_ext']) and \
@@ -203,9 +202,9 @@ async def ran_tag_ex(ctx, *, tags='-boys_only', rating='e'):
 
 @client.command(aliases=['r', 'random'])  # not saved to no_dupe
 async def pure_random(ctx):
-    posts = cli.post_list(limit=1, tags='-boys_only', random=True)
+    posts = small_random_post_getter()
     try:
-        if re.search(accepted_file_types, posts['file_ext']):
+        if re.search(accepted_file_types, posts[0]['file_ext']):
             e = discord.Embed(title='Random', color=0x0b0b0c)  # saver
             image_embed_multiple(e, posts, 0)
 
@@ -224,7 +223,7 @@ async def pure_random(ctx):
 async def popular_post(ctx, *, page='1'):
     try:
         page = int(page)
-        post = cli.post_list(limit=2, tags='order:rank', page={page})
+        post = popular_post_getter(page)
         for n in range(0, 2):
             if re.search(accepted_file_types, post[n]['file_ext']):
                 e = discord.Embed(title='Popular Post', color=0xFF00FF)  # saver
@@ -259,7 +258,7 @@ async def popular_post(ctx, *, page='1'):
 @client.command(aliases=['tbig', 'tpop'])  # saved to no_dupe
 async def tagged_popular(ctx, *, tags='-boys_only'):
     try:
-        posts = cli.post_list(tags=f'{tags}', limit=100)
+        posts = large_post_getter(tags)
         updoot = []
         for n in range(0, 100):
             updoot.append(posts[n]['up_score'])
@@ -312,7 +311,7 @@ async def tagged_popular(ctx, *, tags='-boys_only'):
 @client.command(aliases=['tebig', 'tepop'])  # saved to no_dupe
 async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
     try:
-        posts = cli.post_list(tags=f'{tags}', limit=100)
+        posts = large_post_getter(tags)
         updoot = []
         try:
             for n in range(0, 100):
@@ -373,7 +372,7 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
 @client.command(aliases=['tqbig', 'tqpop'])  # saved to no_dupe
 async def tagged_popular_questionable(ctx, *, tags='-boys_only', rating='q'):
     try:
-        posts = cli.post_list(tags=f'{tags}', limit=100)
+        posts = large_post_getter(tags)
         updoot = []
         try:
             for n in range(0, 100):
@@ -435,7 +434,7 @@ async def tagged_popular_questionable(ctx, *, tags='-boys_only', rating='q'):
 async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
     start_time = time.time()
     try:
-        posts = cli.post_list(tags=f'{tags}', limit=100)
+        posts = large_post_getter(tags)
         updoot = []
         try:
             for n in range(0, 100):
@@ -447,8 +446,8 @@ async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
         s_u.reverse()
         for n in range(0, 100):
             try:
-                if re.search(accepted_file_types, s_u[n][0]['file_ext']) and \
-                        s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
+                if re.search(accepted_file_types, s_u[n][0]['file_ext']) and s_u[n][0][
+                    'rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
                         and s_u[n][0]['id'] not in no_dupe[-15:]:
                     post = s_u[n]
                     e = discord.Embed(title='Most Popular Safe Tagged', color=0x2ae20c)  # saver
@@ -509,7 +508,7 @@ async def historical_character(ctx, *, character='keqing_(genshin_impact)'):
 @client.command(aliases=['id'])
 async def id_find_info(ctx, *, identity):
     try:
-        post = cli.post_show(identity)
+        post = id_post_getter(identity)
         if re.search(accepted_file_types, post['file_ext']) and banned_tags not in post['tag_string_general']:
             e = discord.Embed(title='ID Grab', color=0x2ae20c)  # not logg or saver
             individual_embed(e, post)
@@ -539,7 +538,7 @@ async def id_find_info(ctx, *, identity):
 
 @client.command(aliases=['wtf'])
 async def extension_finder(ctx, *, identity):
-    post = cli.post_show(identity)
+    post = id_post_getter(identity)
     await ctx.send(f"{post['file_ext']}")
 
 
