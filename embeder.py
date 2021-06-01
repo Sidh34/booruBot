@@ -5,6 +5,7 @@ from loghelp import *
 
 accepted_file_types = '(png|jpg|gif)'
 partially_accepted = 'mp4'
+zip_replace = 'webm'
 
 
 def helper(embed):  # needs finishing
@@ -33,7 +34,7 @@ def image_embed_multiple(embed, post, n):
     # ['tag_string_artist'], ['up_score'], ['down_score'], ['file_ext']
     if re.search(accepted_file_types, post[n]['file_ext']):
         embed.set_image(url=post[n]['file_url'])
-    elif re.search(partially_accepted, post[n]['file_ext']):
+    elif re.search(partially_accepted, post[n]['file_ext']) or re.search(zip_replace, post[n]['large_file_url'][-4:]):
         pass
     else:
         embed.set_image(url=PARAMETERS.INA_URL)
@@ -84,7 +85,7 @@ def individual_embed(embed, post):
     # Pulled from Danbooru API post
     if re.search(accepted_file_types, post['file_ext']):
         embed.set_image(url=post['file_url'])
-    elif re.search(partially_accepted, post['file_ext']):
+    elif re.search(partially_accepted, post['file_ext']) or re.search(zip_replace, post['large_file_url'][-4:]):
         pass
     else:
         embed.set_image(url=PARAMETERS.INA_URL)
