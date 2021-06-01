@@ -4,6 +4,7 @@ from loghelp import *
 
 
 accepted_file_types = '(png|jpg|gif)'
+partially_accepted = 'mp4'
 
 
 def helper(embed):  # needs finishing
@@ -32,6 +33,8 @@ def image_embed_multiple(embed, post, n):
     # ['tag_string_artist'], ['up_score'], ['down_score'], ['file_ext']
     if re.search(accepted_file_types, post[n]['file_ext']):
         embed.set_image(url=post[n]['file_url'])
+    elif re.search(partially_accepted, post[n]['file_ext']):
+        pass
     else:
         embed.set_image(url=PARAMETERS.INA_URL)
     embed.add_field(name='Post ID', value=post[n]['id'], inline=True)
@@ -79,7 +82,12 @@ def hist_embed(embed, post):
 
 def individual_embed(embed, post):
     # Pulled from Danbooru API post
-    embed.set_image(url=post['file_url'])
+    if re.search(accepted_file_types, post['file_ext']):
+        embed.set_image(url=post['file_url'])
+    elif re.search(partially_accepted, post['file_ext']):
+        pass
+    else:
+        embed.set_image(url=PARAMETERS.INA_URL)
     embed.add_field(name='Post ID', value=post['id'], inline=True)
     if post['rating'] == 's':
         rating = 'Safe'
