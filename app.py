@@ -1,16 +1,10 @@
 from __future__ import unicode_literals
-import discord
-from discord.ext import commands
 from pybooru.exceptions import PybooruHTTPError
 from operator import itemgetter
-from embeder import *
 from danhelp import *
+from discordhelp import *
 import time
 
-no_dupe = []
-server = discord.Client()
-intents = discord.Intents(messages=True, guilds=True, reactions=True, members=True, presences=True)
-client = commands.Bot(command_prefix='?', intents=intents)
 banned_tags = 'male_focus'
 feet_pattern = '[fF].{2}[eE]*.{0,1}[tT]'
 c_t_pattern = '[cC]+[uUoO]+[uUoOmM]+[mMbB]*'
@@ -35,31 +29,19 @@ async def tagged(ctx, *, tags='hololive'):
         for n in range(0, 2):
             if posts[n]['id'] not in no_dupe[-15:] and \
                     re.search(accepted_file_types, posts[n]['file_ext']):
-                e = discord.Embed(title='Tagged', color=0x0e0de6)  # saver
-                image_embed_multiple(e, posts, n)
-                no_dupe.append(posts[n]['id'])
-                if len(no_dupe) > 15:
-                    no_dupe.pop(0)
+                e = tagged_disc_embed(posts, n)
 
                 await ctx.send(embed=e)
                 break
             elif posts[n]['id'] not in no_dupe[-15:] and \
                     re.search(partially_accepted, posts[n]['file_ext']):
-                e = discord.Embed(title='Tagged', color=0x0e0de6)  # saver
-                image_embed_multiple(e, posts, n)
-                no_dupe.append(posts[n]['id'])
-                if len(no_dupe) > 15:
-                    no_dupe.pop(0)
+                e = tagged_disc_embed(posts, n)
 
                 await ctx.send(embed=e)
                 break
             elif posts[n]['id'] not in no_dupe[-15:] and \
                     re.search(zip_replace, posts[n]['large_file_url'][-4:]):
-                e = discord.Embed(title='Tagged', color=0x0e0de6)  # saver
-                image_embed_multiple(e, posts, n)
-                no_dupe.append(posts[n]['id'])
-                if len(no_dupe) > 15:
-                    no_dupe.pop(0)
+                e = tagged_disc_embed(posts, n)
 
                 await ctx.send(embed=e)
                 break
@@ -85,22 +67,14 @@ async def ran_tag_saf(ctx, *, tags='-boys_only', rating='s'):
             if re.search(accepted_file_types, posts[n]['file_ext']) and \
                     banned_tags not in posts[n]['tag_string_general'] and posts[n]['rating'] in rating \
                     and posts[n]['id'] not in no_dupe[-15:]:
-                e = discord.Embed(title='Tagged Safe', color=0x2ae20c)  # saver
-                image_embed_multiple(e, posts, n)
-                no_dupe.append(posts[n]['id'])
-                if len(no_dupe) > 15:
-                    no_dupe.pop(0)
+                e = ran_tagged_discord_embed(posts, n, rating)
 
                 await ctx.send(embed=e)
                 break
             elif re.search(partially_accepted, posts[n]['file_ext']) and \
                     banned_tags not in posts[n]['tag_string_general'] and posts[n]['rating'] in rating \
                     and posts[n]['id'] not in no_dupe[-15:]:
-                e = discord.Embed(title='Tagged Questionable', color=0xe20c0c)  # saver
-                image_embed_multiple(e, posts, n)
-                no_dupe.append(posts[n]['id'])
-                if len(no_dupe) > 15:
-                    no_dupe.pop(0)
+                e = ran_tagged_discord_embed(posts, n, rating)
 
                 await ctx.send(embed=e)
                 await ctx.send(f"{posts[n]['file_url']}")
@@ -108,11 +82,7 @@ async def ran_tag_saf(ctx, *, tags='-boys_only', rating='s'):
             elif re.search(zip_replace, posts[n]['large_file_url'][-4:]) and \
                     banned_tags not in posts[n]['tag_string_general'] and posts[n]['rating'] in rating \
                     and posts[n]['id'] not in no_dupe[-15:]:
-                e = discord.Embed(title='Tagged Safe', color=0xe20c0c)  # saver
-                image_embed_multiple(e, posts, n)
-                no_dupe.append(posts[n]['id'])
-                if len(no_dupe) > 15:
-                    no_dupe.pop(0)
+                e = ran_tagged_discord_embed(posts, n, rating)
 
                 await ctx.send(embed=e)
                 await ctx.send(f"{posts[n]['large_file_url']}")
@@ -134,22 +104,14 @@ async def ran_tag_que(ctx, *, tags='-boys_only', rating='q'):
             if re.search(accepted_file_types, posts[n]['file_ext']) and \
                     banned_tags not in posts[n]['tag_string_general'] and posts[n]['rating'] in rating \
                     and posts[n]['id'] not in no_dupe[-15:]:
-                e = discord.Embed(title='Tagged Questionable', color=0xee8f10)  # saver
-                image_embed_multiple(e, posts, n)
-                no_dupe.append(posts[n]['id'])
-                if len(no_dupe) > 15:
-                    no_dupe.pop(0)
+                e = ran_tagged_discord_embed(posts, n, rating)
 
                 await ctx.send(embed=e)
                 break
             elif re.search(partially_accepted, posts[n]['file_ext']) and \
                     banned_tags not in posts[n]['tag_string_general'] and posts[n]['rating'] in rating \
                     and posts[n]['id'] not in no_dupe[-15:]:
-                e = discord.Embed(title='Tagged Questionable', color=0xe20c0c)  # saver
-                image_embed_multiple(e, posts, n)
-                no_dupe.append(posts[n]['id'])
-                if len(no_dupe) > 15:
-                    no_dupe.pop(0)
+                e = ran_tagged_discord_embed(posts, n, rating)
 
                 await ctx.send(embed=e)
                 await ctx.send(f"{posts[n]['file_url']}")
@@ -157,11 +119,7 @@ async def ran_tag_que(ctx, *, tags='-boys_only', rating='q'):
             elif re.search(zip_replace, posts[n]['large_file_url'][-4:]) and \
                     banned_tags not in posts[n]['tag_string_general'] and posts[n]['rating'] in rating \
                     and posts[n]['id'] not in no_dupe[-15:]:
-                e = discord.Embed(title='Tagged Questionable', color=0xe20c0c)  # saver
-                image_embed_multiple(e, posts, n)
-                no_dupe.append(posts[n]['id'])
-                if len(no_dupe) > 15:
-                    no_dupe.pop(0)
+                e = ran_tagged_discord_embed(posts, n, rating)
 
                 await ctx.send(embed=e)
                 await ctx.send(f"{posts[n]['large_file_url']}")
@@ -176,29 +134,21 @@ async def ran_tag_que(ctx, *, tags='-boys_only', rating='q'):
 
 
 @client.command(aliases=['rte'])  # saved to no dupe
-async def ran_tag_ex(ctx, *, tags='-boys_only', rating='e'):
+async def ran_tag_exp(ctx, *, tags='-boys_only', rating='e'):
     posts = random_post_getter(tags)
     for n in range(0, 100):
         try:
             if re.search(accepted_file_types, posts[n]['file_ext']) and \
                     banned_tags not in posts[n]['tag_string_general'] and posts[n]['rating'] in rating \
                     and posts[n]['id'] not in no_dupe[-15:]:
-                e = discord.Embed(title='Tagged Explicit', color=0xe20c0c)  # saver
-                image_embed_multiple(e, posts, n)
-                no_dupe.append(posts[n]['id'])
-                if len(no_dupe) > 15:
-                    no_dupe.pop(0)
+                e = ran_tagged_discord_embed(posts, n, rating)
 
                 await ctx.send(embed=e)
                 break
             elif re.search(partially_accepted, posts[n]['file_ext']) and \
                     banned_tags not in posts[n]['tag_string_general'] and posts[n]['rating'] in rating \
                     and posts[n]['id'] not in no_dupe[-15:]:
-                e = discord.Embed(title='Tagged Explicit', color=0xe20c0c)  # saver
-                image_embed_multiple(e, posts, n)
-                no_dupe.append(posts[n]['id'])
-                if len(no_dupe) > 15:
-                    no_dupe.pop(0)
+                e = ran_tagged_discord_embed(posts, n, rating)
 
                 await ctx.send(embed=e)
                 await ctx.send(f"{posts[n]['file_url']}")
@@ -206,11 +156,7 @@ async def ran_tag_ex(ctx, *, tags='-boys_only', rating='e'):
             elif re.search(zip_replace, posts[n]['large_file_url'][-4:]) and \
                     banned_tags not in posts[n]['tag_string_general'] and posts[n]['rating'] in rating \
                     and posts[n]['id'] not in no_dupe[-15:]:
-                e = discord.Embed(title='Tagged Explicit', color=0xe20c0c)  # saver
-                image_embed_multiple(e, posts, n)
-                no_dupe.append(posts[n]['id'])
-                if len(no_dupe) > 15:
-                    no_dupe.pop(0)
+                e = ran_tagged_discord_embed(posts, n, rating)
 
                 await ctx.send(embed=e)
                 await ctx.send(f"{posts[n]['large_file_url']}")
@@ -250,21 +196,18 @@ async def popular_post(ctx, *, page='1'):
         post = popular_post_getter(page)
         for n in range(0, 2):
             if re.search(accepted_file_types, post[n]['file_ext']):
-                e = discord.Embed(title='Popular Post', color=0xFF00FF)  # saver
-                image_embed_multiple(e, post, n)
+                e = order_rank_discord_embed(post, n)
 
                 await ctx.send(embed=e)
                 break
             elif re.search(partially_accepted, post[n]['file_ext']):
-                e = discord.Embed(title='Popular Post', color=0xFF00FF)  # saver
-                image_embed_multiple(e, post, n)
+                e = order_rank_discord_embed(post, n)
 
                 await ctx.send(embed=e)
                 await ctx.send(f"{post[n]['file_url']}")
                 break
             elif re.search(zip_replace, post[n]['large_file_url'][-4:]):
-                e = discord.Embed(title='Popular Post', color=0xFF00FF)  # saver
-                image_embed_multiple(e, post, n)
+                e = order_rank_discord_embed(post, n)
 
                 await ctx.send(embed=e)
                 await ctx.send(f"{post[n]['large_file_url']}")
@@ -293,33 +236,20 @@ async def tagged_popular(ctx, *, tags='-boys_only'):
             try:
                 if re.search(accepted_file_types, s_u[n][0]['file_ext']) \
                         and s_u[n][0]['id'] not in no_dupe[-15:]:
-                    post = s_u[n]
-                    e = discord.Embed(title='Most Popular Tagged', color=0x2ae20c)  # saver
-                    image_embed_multiple(e, post, 0)
-                    no_dupe.append(s_u[n][0]['id'])
-                    if len(no_dupe) > 15:
-                        no_dupe.pop(0)
+                    e = tagged_popular_discord_embed(s_u, n)
 
                     await ctx.send(embed=e)
                     break
                 elif re.search(partially_accepted, s_u[n][0]['file_ext']) \
                         and s_u[n][0]['id'] not in no_dupe[-15:]:
-                    e = discord.Embed(title='Popular Post', color=0xFF00FF)  # saver
-                    image_embed_multiple(e, s_u, n)
-                    no_dupe.append(s_u[n][0]['id'])
-                    if len(no_dupe) > 15:
-                        no_dupe.pop(0)
+                    e = tagged_popular_discord_embed(s_u, n)
 
                     await ctx.send(embed=e)
                     await ctx.send(f"{s_u[n][0]['file_url']}")
                     break
                 elif re.search(zip_replace, s_u[n][0]['large_file_url'][-4:]) \
                         and s_u[n][0]['id'] not in no_dupe[-15:]:
-                    e = discord.Embed(title='Popular Post', color=0xFF00FF)  # saver
-                    image_embed_multiple(e, s_u, n)
-                    no_dupe.append(s_u[n][0]['id'])
-                    if len(no_dupe) > 15:
-                        no_dupe.pop(0)
+                    e = tagged_popular_discord_embed(s_u, n)
 
                     await ctx.send(embed=e)
                     await ctx.send(f"{s_u[n][0]['large_file_url']}")
@@ -356,24 +286,14 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
                 if re.search(accepted_file_types, s_u[n][0]['file_ext']) \
                         and s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
                         and s_u[n][0]['id'] not in no_dupe[-15:]:
-                    post = s_u[n]
-                    e = discord.Embed(title='Most Popular Explicit Tagged', color=0x2ae20c)  # saver
-                    image_embed_multiple(e, post, 0)
-                    no_dupe.append(s_u[n][0]['id'])
-                    if len(no_dupe) > 15:
-                        no_dupe.pop(0)
+                    e = tagged_pop_rate_discord_embed(rating, s_u, n)
 
                     await ctx.send(embed=e)
                     break
                 elif re.search(partially_accepted, s_u[n][0]['file_ext']) and s_u[n][0]['rating'] in rating \
                         and banned_tags not in s_u[n][0]['tag_string_general'] \
                         and s_u[n][0]['id'] not in no_dupe[-15:]:
-                    post = s_u[n]
-                    e = discord.Embed(title='Most Popular Explicit Tagged', color=0x2ae20c)  # saver
-                    image_embed_multiple(e, post, 0)
-                    no_dupe.append(s_u[n][0]['id'])
-                    if len(no_dupe) > 15:
-                        no_dupe.pop(0)
+                    e = tagged_pop_rate_discord_embed(rating, s_u, n)
 
                     await ctx.send(embed=e)
                     await ctx.send(f"{s_u[n][0]['file_url']}")
@@ -381,12 +301,7 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
                 elif re.search(zip_replace, s_u[n][0]['large_file_url'][-4:]) and s_u[n][0]['rating'] in rating \
                         and banned_tags not in s_u[n][0]['tag_string_general'] \
                         and s_u[n][0]['id'] not in no_dupe[-15:]:
-                    post = s_u[n]
-                    e = discord.Embed(title='Most Popular Explicit Tagged', color=0x2ae20c)  # saver
-                    image_embed_multiple(e, post, 0)
-                    no_dupe.append(s_u[n][0]['id'])
-                    if len(no_dupe) > 15:
-                        no_dupe.pop(0)
+                    e = tagged_pop_rate_discord_embed(rating, s_u, n)
 
                     await ctx.send(embed=e)
                     await ctx.send(f"{s_u[n][0]['large_file_url']}")
@@ -423,24 +338,14 @@ async def tagged_popular_questionable(ctx, *, tags='-boys_only', rating='q'):
                 if re.search(accepted_file_types, s_u[n][0]['file_ext']) and \
                         s_u[n][0]['rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
                         and s_u[n][0]['id'] not in no_dupe[-15:]:
-                    post = s_u[n]
-                    e = discord.Embed(title='Most Popular Questionable Tagged', color=0x2ae20c)  # saver
-                    image_embed_multiple(e, post, 0)
-                    no_dupe.append(s_u[n][0]['id'])
-                    if len(no_dupe) > 15:
-                        no_dupe.pop(0)
+                    e = tagged_pop_rate_discord_embed(rating, s_u, n)
 
                     await ctx.send(embed=e)
                     break
                 elif re.search(partially_accepted, s_u[n][0]['file_ext']) and s_u[n][0]['rating'] in rating \
                         and banned_tags not in s_u[n][0]['tag_string_general'] \
                         and s_u[n][0]['id'] not in no_dupe[-15:]:
-                    post = s_u[n]
-                    e = discord.Embed(title='Most Popular Questionable Tagged', color=0x2ae20c)  # saver
-                    image_embed_multiple(e, post, 0)
-                    no_dupe.append(s_u[n][0]['id'])
-                    if len(no_dupe) > 15:
-                        no_dupe.pop(0)
+                    e = tagged_pop_rate_discord_embed(rating, s_u, n)
 
                     await ctx.send(embed=e)
                     await ctx.send(f"{s_u[n][0]['file_url']}")
@@ -448,12 +353,7 @@ async def tagged_popular_questionable(ctx, *, tags='-boys_only', rating='q'):
                 elif re.search(zip_replace, s_u[n][0]['large_file_url'][-4:]) and s_u[n][0]['rating'] in rating \
                         and banned_tags not in s_u[n][0]['tag_string_general'] \
                         and s_u[n][0]['id'] not in no_dupe[-15:]:
-                    post = s_u[n]
-                    e = discord.Embed(title='Most Popular Questionable Tagged', color=0x2ae20c)  # saver
-                    image_embed_multiple(e, post, 0)
-                    no_dupe.append(s_u[n][0]['id'])
-                    if len(no_dupe) > 15:
-                        no_dupe.pop(0)
+                    e = tagged_pop_rate_discord_embed(rating, s_u, n)
 
                     await ctx.send(embed=e)
                     await ctx.send(f"{s_u[n][0]['large_file_url']}")
@@ -488,27 +388,17 @@ async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
         s_u.reverse()
         for n in range(0, 100):
             try:
-                if re.search(accepted_file_types, s_u[n][0]['file_ext']) and s_u[n][0][
-                    'rating'] in rating and banned_tags not in s_u[n][0]['tag_string_general'] \
+                if re.search(accepted_file_types, s_u[n][0]['file_ext']) and s_u[n][0]['rating'] in rating \
+                        and banned_tags not in s_u[n][0]['tag_string_general'] \
                         and s_u[n][0]['id'] not in no_dupe[-15:]:
-                    post = s_u[n]
-                    e = discord.Embed(title='Most Popular Safe Tagged', color=0x2ae20c)  # saver
-                    image_embed_multiple(e, post, 0)
-                    no_dupe.append(s_u[n][0]['id'])
-                    if len(no_dupe) > 15:
-                        no_dupe.pop(0)
+                    e = tagged_pop_rate_discord_embed(rating, s_u, n)
 
                     await ctx.send(embed=e), print("--- %s seconds ---" % (time.time() - start_time))
                     break
                 elif re.search(partially_accepted, s_u[n][0]['file_ext']) and s_u[n][0]['rating'] in rating \
                         and banned_tags not in s_u[n][0]['tag_string_general'] \
                         and s_u[n][0]['id'] not in no_dupe[-15:]:
-                    post = s_u[n]
-                    e = discord.Embed(title='Most Popular Safe Tagged', color=0x2ae20c)  # saver
-                    image_embed_multiple(e, post, 0)
-                    no_dupe.append(s_u[n][0]['id'])
-                    if len(no_dupe) > 15:
-                        no_dupe.pop(0)
+                    e = tagged_pop_rate_discord_embed(rating, s_u, n)
 
                     await ctx.send(embed=e)
                     await ctx.send(f"{s_u[n][0]['file_url']}")
@@ -516,12 +406,7 @@ async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
                 elif re.search(zip_replace, s_u[n][0]['large_file_url'][-4:]) and s_u[n][0]['rating'] in rating \
                         and banned_tags not in s_u[n][0]['tag_string_general'] \
                         and s_u[n][0]['id'] not in no_dupe[-15:]:
-                    post = s_u[n]
-                    e = discord.Embed(title='Most Popular Safe Tagged', color=0x2ae20c)  # saver
-                    image_embed_multiple(e, post, 0)
-                    no_dupe.append(s_u[n][0]['id'])
-                    if len(no_dupe) > 15:
-                        no_dupe.pop(0)
+                    e = tagged_pop_rate_discord_embed(rating, s_u, n)
 
                     await ctx.send(embed=e)
                     await ctx.send(f"{s_u[n][0]['large_file_url']}")
