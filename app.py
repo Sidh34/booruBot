@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 from pybooru.exceptions import PybooruHTTPError
-from operator import itemgetter
 from danhelp import *
 from discordhelp import *
 import time
@@ -197,6 +196,20 @@ async def pure_random(ctx):
             e.set_footer(text="--- {0:.8f} seconds ---".format(time.time() - start_time))
 
             await ctx.send(embed=e)
+        elif re.search(partially_accepted, posts[0]['file_ext']):
+            e = discord.Embed(title='Random', color=0x0b0b0c)  # saver
+            image_embed_multiple(e, posts, 0)
+            e.set_footer(text="--- {0:.8f} seconds ---".format(time.time() - start_time))
+
+            await ctx.send(embed=e)
+            await ctx.send(f"{posts[0]['file_url']}")
+        elif re.search(zip_replace, posts[0]['large_file_url'][-4:]):
+            e = discord.Embed(title='Random', color=0x0b0b0c)  # saver
+            image_embed_multiple(e, posts, 0)
+            e.set_footer(text="--- {0:.8f} seconds ---".format(time.time() - start_time))
+
+            await ctx.send(embed=e)
+            await ctx.send(f"{posts[0]['large_file_url']}")
     except KeyError:
         w = discord.Embed(title='KeyError', color=0x2ae20c)  # logg
         ina_embed(w)
@@ -249,12 +262,7 @@ async def tagged_popular(ctx, *, tags='-boys_only'):
     start_time = time.time()
     try:
         posts = large_post_getter(tags)
-        updoot = []
-        for n in range(0, 100):
-            updoot.append(posts[n]['up_score'])
-        tied = tuple(zip(posts, updoot))
-        s_u = sorted(tied, key=itemgetter(1))
-        s_u.reverse()
+        s_u = sun(posts)
         for n in range(0, 100):
             try:
                 if re.search(accepted_file_types, s_u[n][0]['file_ext']) \
@@ -299,15 +307,7 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
     start_time = time.time()
     try:
         posts = large_post_getter(tags)
-        updoot = []
-        try:
-            for n in range(0, 100):
-                updoot.append(posts[n]['up_score'])
-        except IndexError:
-            pass
-        tied = tuple(zip(posts, updoot))
-        s_u = sorted(tied, key=itemgetter(1))
-        s_u.reverse()
+        s_u = sun(posts)
         for n in range(0, 100):
             try:
                 if re.search(accepted_file_types, s_u[n][0]['file_ext']) \
@@ -355,15 +355,7 @@ async def tagged_popular_questionable(ctx, *, tags='-boys_only', rating='q'):
     start_time = time.time()
     try:
         posts = large_post_getter(tags)
-        updoot = []
-        try:
-            for n in range(0, 100):
-                updoot.append(posts[n]['up_score'])
-        except IndexError:
-            pass
-        tied = tuple(zip(posts, updoot))
-        s_u = sorted(tied, key=itemgetter(1))
-        s_u.reverse()
+        s_u = sun(posts)
         for n in range(0, 100):
             try:
                 if re.search(accepted_file_types, s_u[n][0]['file_ext']) and \
@@ -411,15 +403,7 @@ async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
     start_time = time.time()
     try:
         posts = large_post_getter(tags)
-        updoot = []
-        try:
-            for n in range(0, 100):
-                updoot.append(posts[n]['up_score'])
-        except IndexError:
-            pass
-        tied = tuple(zip(posts, updoot))
-        s_u = sorted(tied, key=itemgetter(1))
-        s_u.reverse()
+        s_u = sun(posts)
         for n in range(0, 100):
             try:
                 if re.search(accepted_file_types, s_u[n][0]['file_ext']) and s_u[n][0]['rating'] in rating \
@@ -428,7 +412,7 @@ async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
                     e = tagged_pop_rate_discord_embed(rating, s_u, n)
                     e.set_footer(text="--- {0:.8f} seconds ---".format(time.time() - start_time))
 
-                    await ctx.send(embed=e)
+                    await ctx.send(embed=e), print("--- {0:.8f} seconds ---".format(time.time() - start_time))
                     break
                 elif re.search(partially_accepted, s_u[n][0]['file_ext']) and s_u[n][0]['rating'] in rating \
                         and banned_tags not in s_u[n][0]['tag_string_general'] \
