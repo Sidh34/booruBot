@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from embeder import *
+from operator import itemgetter
 
 server = discord.Client()
 intents = discord.Intents(messages=True, guilds=True, reactions=True, members=True, presences=True)
@@ -74,3 +75,16 @@ def tagged_pop_rate_discord_embed(rating, s_u, n):
         if len(no_dupe) > 15:
             no_dupe.pop(0)
     return e
+
+
+def sun(posts):
+    updoot = []
+    try:
+        for n in range(0, 100):
+            updoot.append(posts[n]['up_score'])
+    except IndexError:
+        pass
+    tied = tuple(zip(posts, updoot))
+    s_u = sorted(tied, key=itemgetter(1))
+    s_u.reverse()
+    return s_u
