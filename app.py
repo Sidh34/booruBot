@@ -38,6 +38,8 @@ async def tagged(ctx, *, tags='hololive'):
                 e = discord.Embed(title='Tagged', color=0x0e0de6)  # saver
                 image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
+                if len(no_dupe) > 15:
+                    no_dupe.pop(0)
 
                 await ctx.send(embed=e)
                 break
@@ -46,6 +48,8 @@ async def tagged(ctx, *, tags='hololive'):
                 e = discord.Embed(title='Tagged', color=0x0e0de6)  # saver
                 image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
+                if len(no_dupe) > 15:
+                    no_dupe.pop(0)
 
                 await ctx.send(embed=e)
                 break
@@ -54,6 +58,8 @@ async def tagged(ctx, *, tags='hololive'):
                 e = discord.Embed(title='Tagged', color=0x0e0de6)  # saver
                 image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
+                if len(no_dupe) > 15:
+                    no_dupe.pop(0)
 
                 await ctx.send(embed=e)
                 break
@@ -82,6 +88,8 @@ async def ran_tag_saf(ctx, *, tags='-boys_only', rating='s'):
                 e = discord.Embed(title='Tagged Safe', color=0x2ae20c)  # saver
                 image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
+                if len(no_dupe) > 15:
+                    no_dupe.pop(0)
 
                 await ctx.send(embed=e)
                 break
@@ -91,6 +99,8 @@ async def ran_tag_saf(ctx, *, tags='-boys_only', rating='s'):
                 e = discord.Embed(title='Tagged Questionable', color=0xe20c0c)  # saver
                 image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
+                if len(no_dupe) > 15:
+                    no_dupe.pop(0)
 
                 await ctx.send(embed=e)
                 await ctx.send(f"{posts[n]['file_url']}")
@@ -101,6 +111,8 @@ async def ran_tag_saf(ctx, *, tags='-boys_only', rating='s'):
                 e = discord.Embed(title='Tagged Safe', color=0xe20c0c)  # saver
                 image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
+                if len(no_dupe) > 15:
+                    no_dupe.pop(0)
 
                 await ctx.send(embed=e)
                 await ctx.send(f"{posts[n]['large_file_url']}")
@@ -125,6 +137,8 @@ async def ran_tag_que(ctx, *, tags='-boys_only', rating='q'):
                 e = discord.Embed(title='Tagged Questionable', color=0xee8f10)  # saver
                 image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
+                if len(no_dupe) > 15:
+                    no_dupe.pop(0)
 
                 await ctx.send(embed=e)
                 break
@@ -134,6 +148,8 @@ async def ran_tag_que(ctx, *, tags='-boys_only', rating='q'):
                 e = discord.Embed(title='Tagged Questionable', color=0xe20c0c)  # saver
                 image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
+                if len(no_dupe) > 15:
+                    no_dupe.pop(0)
 
                 await ctx.send(embed=e)
                 await ctx.send(f"{posts[n]['file_url']}")
@@ -144,6 +160,8 @@ async def ran_tag_que(ctx, *, tags='-boys_only', rating='q'):
                 e = discord.Embed(title='Tagged Questionable', color=0xe20c0c)  # saver
                 image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
+                if len(no_dupe) > 15:
+                    no_dupe.pop(0)
 
                 await ctx.send(embed=e)
                 await ctx.send(f"{posts[n]['large_file_url']}")
@@ -168,6 +186,8 @@ async def ran_tag_ex(ctx, *, tags='-boys_only', rating='e'):
                 e = discord.Embed(title='Tagged Explicit', color=0xe20c0c)  # saver
                 image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
+                if len(no_dupe) > 15:
+                    no_dupe.pop(0)
 
                 await ctx.send(embed=e)
                 break
@@ -177,6 +197,8 @@ async def ran_tag_ex(ctx, *, tags='-boys_only', rating='e'):
                 e = discord.Embed(title='Tagged Explicit', color=0xe20c0c)  # saver
                 image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
+                if len(no_dupe) > 15:
+                    no_dupe.pop(0)
 
                 await ctx.send(embed=e)
                 await ctx.send(f"{posts[n]['file_url']}")
@@ -187,6 +209,8 @@ async def ran_tag_ex(ctx, *, tags='-boys_only', rating='e'):
                 e = discord.Embed(title='Tagged Explicit', color=0xe20c0c)  # saver
                 image_embed_multiple(e, posts, n)
                 no_dupe.append(posts[n]['id'])
+                if len(no_dupe) > 15:
+                    no_dupe.pop(0)
 
                 await ctx.send(embed=e)
                 await ctx.send(f"{posts[n]['large_file_url']}")
@@ -273,6 +297,8 @@ async def tagged_popular(ctx, *, tags='-boys_only'):
                     e = discord.Embed(title='Most Popular Tagged', color=0x2ae20c)  # saver
                     image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
+                    if len(no_dupe) > 15:
+                        no_dupe.pop(0)
 
                     await ctx.send(embed=e)
                     break
@@ -281,6 +307,8 @@ async def tagged_popular(ctx, *, tags='-boys_only'):
                     e = discord.Embed(title='Popular Post', color=0xFF00FF)  # saver
                     image_embed_multiple(e, s_u, n)
                     no_dupe.append(s_u[n][0]['id'])
+                    if len(no_dupe) > 15:
+                        no_dupe.pop(0)
 
                     await ctx.send(embed=e)
                     await ctx.send(f"{s_u[n][0]['file_url']}")
@@ -290,6 +318,8 @@ async def tagged_popular(ctx, *, tags='-boys_only'):
                     e = discord.Embed(title='Popular Post', color=0xFF00FF)  # saver
                     image_embed_multiple(e, s_u, n)
                     no_dupe.append(s_u[n][0]['id'])
+                    if len(no_dupe) > 15:
+                        no_dupe.pop(0)
 
                     await ctx.send(embed=e)
                     await ctx.send(f"{s_u[n][0]['large_file_url']}")
@@ -330,6 +360,8 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
                     e = discord.Embed(title='Most Popular Explicit Tagged', color=0x2ae20c)  # saver
                     image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
+                    if len(no_dupe) > 15:
+                        no_dupe.pop(0)
 
                     await ctx.send(embed=e)
                     break
@@ -340,6 +372,8 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
                     e = discord.Embed(title='Most Popular Explicit Tagged', color=0x2ae20c)  # saver
                     image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
+                    if len(no_dupe) > 15:
+                        no_dupe.pop(0)
 
                     await ctx.send(embed=e)
                     await ctx.send(f"{s_u[n][0]['file_url']}")
@@ -351,6 +385,8 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
                     e = discord.Embed(title='Most Popular Explicit Tagged', color=0x2ae20c)  # saver
                     image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
+                    if len(no_dupe) > 15:
+                        no_dupe.pop(0)
 
                     await ctx.send(embed=e)
                     await ctx.send(f"{s_u[n][0]['large_file_url']}")
@@ -391,6 +427,8 @@ async def tagged_popular_questionable(ctx, *, tags='-boys_only', rating='q'):
                     e = discord.Embed(title='Most Popular Questionable Tagged', color=0x2ae20c)  # saver
                     image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
+                    if len(no_dupe) > 15:
+                        no_dupe.pop(0)
 
                     await ctx.send(embed=e)
                     break
@@ -401,6 +439,8 @@ async def tagged_popular_questionable(ctx, *, tags='-boys_only', rating='q'):
                     e = discord.Embed(title='Most Popular Questionable Tagged', color=0x2ae20c)  # saver
                     image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
+                    if len(no_dupe) > 15:
+                        no_dupe.pop(0)
 
                     await ctx.send(embed=e)
                     await ctx.send(f"{s_u[n][0]['file_url']}")
@@ -412,6 +452,8 @@ async def tagged_popular_questionable(ctx, *, tags='-boys_only', rating='q'):
                     e = discord.Embed(title='Most Popular Questionable Tagged', color=0x2ae20c)  # saver
                     image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
+                    if len(no_dupe) > 15:
+                        no_dupe.pop(0)
 
                     await ctx.send(embed=e)
                     await ctx.send(f"{s_u[n][0]['large_file_url']}")
@@ -453,6 +495,8 @@ async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
                     e = discord.Embed(title='Most Popular Safe Tagged', color=0x2ae20c)  # saver
                     image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
+                    if len(no_dupe) > 15:
+                        no_dupe.pop(0)
 
                     await ctx.send(embed=e), print("--- %s seconds ---" % (time.time() - start_time))
                     break
@@ -463,6 +507,8 @@ async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
                     e = discord.Embed(title='Most Popular Safe Tagged', color=0x2ae20c)  # saver
                     image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
+                    if len(no_dupe) > 15:
+                        no_dupe.pop(0)
 
                     await ctx.send(embed=e)
                     await ctx.send(f"{s_u[n][0]['file_url']}")
@@ -474,6 +520,8 @@ async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
                     e = discord.Embed(title='Most Popular Safe Tagged', color=0x2ae20c)  # saver
                     image_embed_multiple(e, post, 0)
                     no_dupe.append(s_u[n][0]['id'])
+                    if len(no_dupe) > 15:
+                        no_dupe.pop(0)
 
                     await ctx.send(embed=e)
                     await ctx.send(f"{s_u[n][0]['large_file_url']}")
