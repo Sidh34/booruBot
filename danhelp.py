@@ -11,13 +11,13 @@ def small_post_getter(tags):
     return posts
 
 
-@lru_cache(maxsize=1000)
+@lru_cache(maxsize=250)
 def large_post_getter(tags):
     posts = cli.post_list(tags=f'{tags}', limit=100)
     return posts
 
 
-@lru_cache(maxsize=1000)
+@lru_cache(maxsize=250)
 def random_post_getter(tags):
     posts = cli.post_list(tags=f'{tags}', limit=100, random=True)
     return posts
