@@ -26,13 +26,13 @@ def ran_tagged_discord_embed(posts, n, rating):
         if len(no_dupe) > 15:
             no_dupe.pop(0)
     elif rating == 'q':
-        e = discord.Embed(title='Tagged Questionable', color=0x2ae20c)  # saver
+        e = discord.Embed(title='Tagged Questionable', color=0xffc324)  # saver
         image_embed_multiple(e, posts, n)
         no_dupe.append(posts[n]['id'])
         if len(no_dupe) > 15:
             no_dupe.pop(0)
     elif rating == 'e':
-        e = discord.Embed(title='Tagged Explicit', color=0x2ae20c)  # saver
+        e = discord.Embed(title='Tagged Explicit', color=0xcf142b)  # saver
         image_embed_multiple(e, posts, n)
         no_dupe.append(posts[n]['id'])
         if len(no_dupe) > 15:
@@ -41,13 +41,13 @@ def ran_tagged_discord_embed(posts, n, rating):
 
 
 def order_rank_discord_embed(post, n):
-    e = discord.Embed(title='Popular Post', color=0xFF00FF)  # saver
+    e = discord.Embed(title='Popular Post', color=0x00b2ee)  # saver
     image_embed_multiple(e, post, n)
     return e
 
 
 def tagged_popular_discord_embed(s_u, n):
-    e = discord.Embed(title='Popular Tagged', color=0x2ae20c)  # saver
+    e = discord.Embed(title='Popular Tagged', color=0x00b2ee)  # saver
     image_embed_multiple(e, s_u[n], 0)
     no_dupe.append(s_u[n][0]['id'])
     if len(no_dupe) > 15:
@@ -63,13 +63,13 @@ def tagged_pop_rate_discord_embed(rating, s_u, n):
         if len(no_dupe) > 15:
             no_dupe.pop(0)
     elif rating == 'q':
-        e = discord.Embed(title='Most Popular Questionable Tagged', color=0x2ae20c)  # saver
+        e = discord.Embed(title='Most Popular Questionable Tagged', color=0xffc324)  # saver
         image_embed_multiple(e, s_u[n], 0)
         no_dupe.append(s_u[n][0]['id'])
         if len(no_dupe) > 15:
             no_dupe.pop(0)
     elif rating == 'e':
-        e = discord.Embed(title='Most Popular Explicit Tagged', color=0x2ae20c)  # saver
+        e = discord.Embed(title='Most Popular Explicit Tagged', color=0xcf142b)  # saver
         image_embed_multiple(e, s_u[n], 0)
         no_dupe.append(s_u[n][0]['id'])
         if len(no_dupe) > 15:
