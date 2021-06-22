@@ -57,6 +57,7 @@ def image_embed_multiple(embed, post, n):
     embed.add_field(name='Rating', value=rating, inline=True)
     embed.add_field(name='Upvotes', value=post[n]['up_score'], inline=True)
     embed.add_field(name='Downvotes', value=post[n]['down_score'], inline=True)
+    embed.add_field(name='Link', value=f"https://danbooru.donmai.us/posts/{post[n]['id']}", inline=False)
     # saver(post, n)
 
 
@@ -113,3 +114,16 @@ def individual_embed(embed, post):
     embed.add_field(name='Pixiv ID', value=post['pixiv_id'], inline=True)
     embed.add_field(name='Post Date', value=f"{post['created_at'].split('T')[0]} at {post['created_at'].split('T')[1]}", inline=False)
     embed.add_field(name='Size', value=f'{post["image_width"]} x {post["image_height"]}', inline=False)
+    embed.add_field(name='Link', value=f"https://danbooru.donmai.us/posts/{post['id']}", inline=False)
+
+
+def sauce_embed(embed, result):
+    # pulled from SauceNao API post
+    embed.add_field(name="Similarity", value=result.sim, inline=True)
+    embed.add_field(name="Title", value=result.title, inline=True)
+    embed.add_field(name="url", value=result.url, inline=True)
+    embed.add_field(name="Author", value=result.author, inline=True)
+    if result.time != "placeholder":
+        embed.add_field(name="Time", value=result.time, inline=False)
+    if result.part != "placeholder":
+        embed.add_field(name="Part", value=result.part, inline=False)
