@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from pybooru.exceptions import PybooruHTTPError
 from danhelp import *
 from discordhelp import *
+from saucenaohelper import *
 import time
 
 banned_tags = 'male_focus'
@@ -49,15 +50,15 @@ async def tagged(ctx, *, tags='hololive'):
                 await ctx.send(embed=e)
                 break
     except IndexError:
-        w = discord.Embed(title='IndexError', color=0x711d6c)  # logg
+        w = discord.Embed(title='IndexError', color=0x2ae20c)  # logg
         ina_embed(w)
         await ctx.send(embed=w)
     except KeyError:
-        w = discord.Embed(title='KeyError', color=0x711d6c)  # logg
+        w = discord.Embed(title='KeyError', color=0x2ae20c)  # logg
         ina_embed(w)
         await ctx.send(embed=w)
     except ValueError:
-        w = discord.Embed(title='ValueError', color=0x711d6c)  # logg
+        w = discord.Embed(title='ValueError', color=0x2ae20c)  # logg
         ina_embed(w)
         await ctx.send(embed=w)
 
@@ -97,7 +98,7 @@ async def ran_tag_saf(ctx, *, tags='-boys_only', rating='s'):
         except KeyError:
             pass
         except IndexError:
-            w = discord.Embed(title='IndexError: Input a usable tag', color=0x711d6c)  # logg
+            w = discord.Embed(title='IndexError: Input a usable tag', color=0x2ae20c)  # logg
             ina_embed(w)
             await ctx.send(embed=w)
             break
@@ -138,7 +139,7 @@ async def ran_tag_que(ctx, *, tags='-boys_only', rating='q'):
         except KeyError:
             pass
         except IndexError:
-            w = discord.Embed(title='IndexError: Input a usable tag', color=0x711d6c)  # logg
+            w = discord.Embed(title='IndexError: Input a usable tag', color=0x2ae20c)  # logg
             ina_embed(w)
             await ctx.send(embed=w)
             break
@@ -179,7 +180,7 @@ async def ran_tag_exp(ctx, *, tags='-boys_only', rating='e'):
         except KeyError:
             pass
         except IndexError:
-            w = discord.Embed(title='IndexError: Input a usable tag', color=0x711d6c)  # logg
+            w = discord.Embed(title='IndexError: Input a usable tag', color=0x2ae20c)  # logg
             ina_embed(w)
             await ctx.send(embed=w)
             break
@@ -211,11 +212,11 @@ async def pure_random(ctx):
             await ctx.send(embed=e)
             await ctx.send(f"{posts[0]['large_file_url']}")
     except KeyError:
-        w = discord.Embed(title='KeyError', color=0x711d6c)  # logg
+        w = discord.Embed(title='KeyError', color=0x2ae20c)  # logg
         ina_embed(w)
         await ctx.send(embed=w)
     except ValueError:
-        w = discord.Embed(title='ValueError', color=0x711d6c)  # logg
+        w = discord.Embed(title='ValueError', color=0x2ae20c)  # logg
         ina_embed(w)
         await ctx.send(embed=w)
 
@@ -248,11 +249,11 @@ async def popular_post(ctx, *, page='1'):
                 await ctx.send(f"{post[n]['large_file_url']}")
                 break
     except KeyError:
-        w = discord.Embed(title='KeyError: Go somewhere else', color=0x711d6c)  # logg
+        w = discord.Embed(title='KeyError: Go somewhere else', color=0x2ae20c)  # logg
         ina_embed(w)
         await ctx.send(embed=w)
     except ValueError:
-        w = discord.Embed(title='ValueError: Enter a number, not a tag', color=0x711d6c)  # logg
+        w = discord.Embed(title='ValueError: Enter a number, not a tag', color=0x2ae20c)  # logg
         ina_embed(w)
         await ctx.send(embed=w)
 
@@ -293,11 +294,11 @@ async def tagged_popular(ctx, *, tags='-boys_only'):
             except IndexError:
                 break
     except IndexError:
-        w = discord.Embed(title='IndexError', color=0x711d6c)  # logg
+        w = discord.Embed(title='IndexError', color=0x2ae20c)  # logg
         ina_embed(w)
         await ctx.send(embed=w)
     except ValueError:
-        w = discord.Embed(title='ValueError', color=0x711d6c)  # logg
+        w = discord.Embed(title='ValueError', color=0x2ae20c)  # logg
         ina_embed(w)
         await ctx.send(embed=w)
 
@@ -340,12 +341,12 @@ async def tagged_popular_explicit(ctx, *, tags='-boys_only', rating='e'):
                 print(f'KeyError: ?tepop {tags}')
                 pass
             except IndexError:
-                w = discord.Embed(title='IndexError', color=0x711d6c)  # logg
+                w = discord.Embed(title='IndexError', color=0x2ae20c)  # logg
                 ina_embed(w)
                 await ctx.send(embed=w)
                 break
     except ValueError:
-        w = discord.Embed(title='ValueError', color=0x711d6c)  # logg
+        w = discord.Embed(title='ValueError', color=0x2ae20c)  # logg
         ina_embed(w)
         await ctx.send(embed=w)
 
@@ -388,12 +389,12 @@ async def tagged_popular_questionable(ctx, *, tags='-boys_only', rating='q'):
                 print(f'KeyError: ?tqpop {tags}')
                 pass
             except IndexError:
-                w = discord.Embed(title='IndexError', color=0x711d6c)  # logg
+                w = discord.Embed(title='IndexError', color=0x2ae20c)  # logg
                 ina_embed(w)
                 await ctx.send(embed=w)
                 break
     except ValueError:
-        w = discord.Embed(title='ValueError', color=0x711d6c)  # logg
+        w = discord.Embed(title='ValueError', color=0x2ae20c)  # logg
         ina_embed(w)
         await ctx.send(embed=w)
 
@@ -412,7 +413,7 @@ async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
                     e = tagged_pop_rate_discord_embed(rating, s_u, n)
                     e.set_footer(text="--- {0:.8f} seconds ---".format(time.time() - start_time))
 
-                    await ctx.send(embed=e), print("--- {0:.8f} seconds ---".format(time.time() - start_time))
+                    await ctx.send(embed=e)
                     break
                 elif re.search(partially_accepted, s_u[n][0]['file_ext']) and s_u[n][0]['rating'] in rating \
                         and banned_tags not in s_u[n][0]['tag_string_general'] \
@@ -436,12 +437,12 @@ async def tagged_popular_safe(ctx, *, tags='-boys_only', rating='s'):
                 print(f'KeyError: ?tspop {tags}')
                 pass
             except IndexError:
-                w = discord.Embed(title='IndexError', color=0x711d6c)  # logg
+                w = discord.Embed(title='IndexError', color=0x2ae20c)  # logg
                 ina_embed(w)
                 await ctx.send(embed=w)
                 break
     except ValueError:
-        w = discord.Embed(title='ValueError', color=0x711d6c)  # logg
+        w = discord.Embed(title='ValueError', color=0x2ae20c)  # logg
         ina_embed(w)
         await ctx.send(embed=w)
 
@@ -485,11 +486,26 @@ async def id_find_info(ctx, *, identity):
             await ctx.send(embed=e)
             await ctx.send(f"{post['large_file_url']}")
         else:
-            w = discord.Embed(title='oof', color=0x711d6c)  # logg
+            w = discord.Embed(title='oof', color=0x2ae20c)  # logg
             ina_embed(w)
             await ctx.send(embed=w)
     except PybooruHTTPError:
-        w = discord.Embed(title='INPUT ID', color=0x711d6c)  # logg
+        w = discord.Embed(title='INPUT ID', color=0x2ae20c)  # logg
+        ina_embed(w)
+        await ctx.send(embed=w)
+
+
+@client.command(aliases=['search'])
+async def sauce_find(ctx, *, img):
+    start_time = time.time()
+    try:
+        result = find_sauce(img)
+        e = discord.Embed(title="SauceNao", color=0x2ae20c)
+        sauce_embed(e, result)
+        e.set_footer(text="--- {0:.8f} seconds ---".format(time.time() - start_time))
+        await ctx.send(embed=e)
+    except:
+        w = discord.Embed(title='oof', color=0x2ae20c)  # logg
         ina_embed(w)
         await ctx.send(embed=w)
 
